@@ -5,16 +5,19 @@ sleeptime = 1
   app_id = "idYYYYYYXXX" # your iOS application app id
   country = "jp"
   emoji = ":new:"
+  name = "XXX"
   webhook_url = "webhook_url" # your Incoming WebHooks URL for Slack
 
 [[android]]
   emoji = ":new:"
+  name = "XXX"
   package = "com.XXX.XXX" # your Android application package name
   webhook_url = "webhook_url" # your Incoming WebHooks URL for Slack
 
 [[kindle]]
   asin = "XXXXXX" # your Amazon Standard Identification Number
   emoji = ":new:"
+  name = "XXX"
   webhook_url = "webhook_url" # your Incoming WebHooks URL for Slack
 
 # App 2
@@ -22,14 +25,17 @@ sleeptime = 1
   app_id = "idYYYYYYYYY" # your iOS application app id
   country = "jp"
   emoji = ":new:"
+  name = "YYY"
   webhook_url = "webhook_url" # your Incoming WebHooks URL for Slack
 
 [[android]]
   emoji = ":new:"
+  name = "YYY"
   package = "com.YYY.YYY" # your Android application package name
   webhook_url = "webhook_url" # your Incoming WebHooks URL for Slack
 
 [[kindle]]
   asin = "YYYYYY" # your Amazon Standard Identification Number
   emoji = ":new:"
+  name = "YYY"
   webhook_url = "webhook_url" # your Incoming WebHooks URL for Slack

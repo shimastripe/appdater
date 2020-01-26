@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/ashwanthkumar/slack-go-webhook"
 	_ "github.com/shimastripe/appdater/statik"
 
 	"github.com/BurntSushi/toml"
@@ -48,12 +49,24 @@ func (c *CLI) Run(args []string) int {
 			}
 
 			if err := Validate(latestVersion); err != nil {
-				fmt.Fprintf(c.ErrStream, "Semver is missing. Perhaps DOM is changed: %v. %v", app.CreateAppPageUrl(), err)
+				message := fmt.Sprintf("Semver is missing. Perhaps DOM is changed: %v. %v\n", app.CreateAppPageUrl(), err)
+				fmt.Fprint(c.ErrStream, message)
+
+				// Send log
+				if err := slack.Send(app.WebhookUrl, "", CreateErrorPayload(message, ":ng:")); err != nil {
+					fmt.Fprintf(c.ErrStream, "Cannot send slack: %v\n", err)
+				}
+
 				return 1 // exit
 			}
 
 			if app.LastVersion != "" && app.LastVersion != latestVersion {
 				log.Printf("Update app! %v\n", latestVersion)
+
+				if err := slack.Send(app.WebhookUrl, "", CreatePayload(app.Name, latestVersion, app.CreateAppPageUrl(), app.Emoji)); err != nil {
+					fmt.Fprintf(c.ErrStream, "Cannot send slack: %v\n", err)
+				}
+
 			} else {
 				log.Printf("No update!\n")
 			}
@@ -70,12 +83,24 @@ func (c *CLI) Run(args []string) int {
 			}
 
 			if err := Validate(latestVersion); err != nil {
-				fmt.Fprintf(c.ErrStream, "Semver is missing. Perhaps DOM is changed: %v. %v", app.CreateAppPageUrl(), err)
+				message := fmt.Sprintf("Semver is missing. Perhaps DOM is changed: %v. %v\n", app.CreateAppPageUrl(), err)
+				fmt.Fprint(c.ErrStream, message)
+
+				// Send log
+				if err := slack.Send(app.WebhookUrl, "", CreateErrorPayload(message, ":ng:")); err != nil {
+					fmt.Fprintf(c.ErrStream, "Cannot send slack: %v\n", err)
+				}
+
 				return 1 // exit
 			}
 
 			if app.LastVersion != "" && app.LastVersion != latestVersion {
 				log.Printf("Update app! %v\n", latestVersion)
+
+				if err := slack.Send(app.WebhookUrl, "", CreatePayload(app.Name, latestVersion, app.CreateAppPageUrl(), app.Emoji)); err != nil {
+					fmt.Fprintf(c.ErrStream, "Cannot send slack: %v\n", err)
+				}
+
 			} else {
 				log.Printf("No update!\n")
 			}
@@ -92,12 +117,24 @@ func (c *CLI) Run(args []string) int {
 			}
 
 			if err := Validate(latestVersion); err != nil {
-				fmt.Fprintf(c.ErrStream, "Semver is missing. Perhaps DOM is changed: %v. %v", app.CreateAppPageUrl(), err)
+				message := fmt.Sprintf("Semver is missing. Perhaps DOM is changed: %v. %v\n", app.CreateAppPageUrl(), err)
+				fmt.Fprint(c.ErrStream, message)
+
+				// Send log
+				if err := slack.Send(app.WebhookUrl, "", CreateErrorPayload(message, ":ng:")); err != nil {
+					fmt.Fprintf(c.ErrStream, "Cannot send slack: %v\n", err)
+				}
+
 				return 1 // exit
 			}
 
 			if app.LastVersion != "" && app.LastVersion != latestVersion {
 				log.Printf("Update app! %v\n", latestVersion)
+
+				if err := slack.Send(app.WebhookUrl, "", CreatePayload(app.Name, latestVersion, app.CreateAppPageUrl(), app.Emoji)); err != nil {
+					fmt.Fprintf(c.ErrStream, "Cannot send slack: %v\n", err)
+				}
+
 			} else {
 				log.Printf("No update!\n")
 			}

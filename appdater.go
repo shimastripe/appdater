@@ -14,15 +14,23 @@ func Validate(version string) error {
 	return err
 }
 
-func CreatePayload(version string, website string, emoji string) slack.Payload {
+func CreatePayload(name string, version string, website string, emoji string) slack.Payload {
 	att := slack.Attachment{}
-	att.AddField(slack.Field{Title: "ストアのアプリが更新されました", Value: version})
+	att.AddField(slack.Field{Title: "ストアの" + name + "が更新されました", Value: version})
 	att.AddAction(slack.Action{Type: "button", Text: "Store Page", Url: website, Style: "primary"})
 
 	return slack.Payload{
 		Username:    "Store Checker",
 		IconEmoji:   emoji,
 		Attachments: []slack.Attachment{att},
+	}
+}
+
+func CreateErrorPayload(message string, emoji string) slack.Payload {
+	return slack.Payload{
+		Username:  "Store Checker",
+		IconEmoji: emoji,
+		Text:      message,
 	}
 }
 
@@ -44,6 +52,7 @@ func ScrapeLatestVersion(app App) (string, error) {
 }
 
 type Android struct {
+	Name        string `toml:"name"`
 	Package     string `toml:"package"`
 	WebhookUrl  string `toml:"webhook_url"`
 	Emoji       string `toml:"emoji"`
@@ -66,6 +75,7 @@ func (a Android) CleansingDomValue(value string) string {
 }
 
 type Ios struct {
+	Name        string `toml:"name"`
 	Country     string `toml:"country"`
 	AppID       string `toml:"app_id"`
 	WebhookUrl  string `toml:"webhook_url"`
@@ -90,6 +100,7 @@ func (i Ios) CleansingDomValue(value string) string {
 }
 
 type Kindle struct {
+	Name        string `toml:"name"`
 	Asin        string `toml:"asin"`
 	WebhookUrl  string `toml:"webhook_url"`
 	Emoji       string `toml:"emoji"`
