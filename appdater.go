@@ -2,6 +2,7 @@ package appdater
 
 import (
 	"log"
+	"net/http"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -41,7 +42,22 @@ type App interface {
 }
 
 func ScrapeLatestVersion(app App) (string, error) {
-	doc, err := goquery.NewDocument(app.CreateAppPageUrl())
+	req, err := http.NewRequest("GET", app.CreateAppPageUrl(), nil)
+	if err != nil {
+		return "", err
+	}
+
+	req.Header.Add("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X)")
+
+	client := &http.Client{}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	doc, err := goquery.NewDocumentFromResponse(resp)
 	if err != nil {
 		return "", err
 	}
